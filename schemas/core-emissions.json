@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "$id": "https://climatetrace.org/schemas/core-emissions.json#",
+  "title": "Core Emissions",
+  "type": "object",
+  "description": "This object represents the core metadata model for sector specific emissions.",
+  "allOf": [
+    {
+      "$ref": "#/definitions/FeatureCollection"
+    }
+  ],
+  "definitions": {
+    "emissions": {
+      "type": "object",
+      "properties": {
+        "tCO2eq": {
+          "$ref": "#/definitions/emission"
+        },
+        "tCH4eq": {
+          "$ref": "#/definitions/emission"
+        }
+      }
+    },
+    "emission": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "period": {
+          "type": "string",
+          "format":"duration"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "common_metadata": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "country",
+        "subsector",
+        "emissions"
+      ],
+      "properties": {
+        "source_id": {
+          "title": "Source ID",
+          "description": "Unique ID of the source of the emissions",
+          "type": "string",
+          "minLength": 10
+        },
+        "name": {
+          "title": "Source Name",
+          "description": "Name of the source of the emissions",
+          "type": "string",
+          "minLength": 2
+        },
+        "country": {
+          "title": "Country Code",
+          "description": "ISO 3166 3 letter code",
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 3
+        },
+        "emissions": {
+          "$ref": "#/definitions/emissions"
+        },
+        "subsector": {
+          "title": "Emission SubSector",
+          "description": "One of the well known enumerated emission sectors",
+          "enum": [
+            "electricity-generation",
+            "steel-manufacturing",
+            "cement-manufacturing",
+            "aluminum-manufacturing",
+            "pulp-paper-manufacturing",
+            "chemical-manufacturing",
+            "shipping",
+            "aviation",
+            "road-transportation",
+            "oil-gas-production",
+            "oil-gas-refining ",
+            "coal-mining",
+            "bauxite-mining",
+            "iron-mining",
+            "copper-mining",
+            "forest-clearing-source",
+            "forest-sink",
+            "forest-net",
+            "forest-fires",
+            "scrubland-fires",
+            "cropland-fires",
+            "savannas-fires",
+            "peatland-fires",
+            "rice-cultivation",
+            "enteric-fermentation",
+            "manure-management",
+            "soil-management",
+            "solid-waste-disposal"
+          ]
+        }
+      }
+    },
+    "core": {
+      "allOf": [
+        {
+          "$ref": "https://geojson.org/schema/Feature.json"
+        },
+        {
+          "type": "object",
+          "required": [
+            "properties"
+          ],
+          "properties": {
+            "properties": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/common_metadata"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "FeatureCollection": {
+      "type": "object",
+      "required": [
+        "type",
+        "features"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "FeatureCollection"
+          ]
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/core"
+          }
+        }
+      }
+    }
+  }
+}
