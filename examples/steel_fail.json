@@ -7,7 +7,7 @@
       "properties": {
         "source_id": "ec5eb1e779020ae7b2b373f66a88d1a9",
         "name": "Talcahuano Huachipato Steel Mill",
-        "country": "CHL",
+        
         "subsector": "steel-manufacturing",
         "emissions": {
           "tCO2eq": {

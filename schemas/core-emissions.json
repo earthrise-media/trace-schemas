@@ -136,6 +136,10 @@
         "features"
       ],
       "properties": {
+        "$schema": {
+          "type": "string",
+          "format": "uri"
+        },
         "type": {
           "type": "string",
           "enum": [
