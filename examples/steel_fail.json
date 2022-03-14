@@ -1,5 +1,5 @@
 {
-  "$schema": "file:///Users/snau/code/trace-schemas/schemas/core-emissions.json",
+  "$schema": "../schemas/core-emissions.json",
   "type": "FeatureCollection",
   "features": [
     {
