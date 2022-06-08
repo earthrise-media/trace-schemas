@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema#",
-    "$id": "https://climatetrace.org/schemas/core-emissions.json#",
+    "$id": "https://climatetrace.org/schemas/country-emissions.json#",
     "title": "Core Emissions",
     "type": "array",
     "description": "This is an array of country level emissions reportsd",
