@@ -1,0 +1,55 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema#",
+    "$id": "https://climatetrace.org/schemas/common.json#",
+    "title": "Common Emission Objects",        
+    "definitions": {
+        "country": {
+            "title": "Country Code",
+            "description": "ISO 3166 3 letter code",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3,
+            "enum": ["ABW","AFG","AGO","AIA","ALA","ALB","AND","ARE","ARG","ARM","ASM","ATA","ATF","ATG","AUS","AUT","AZE","BDI","BEL","BEN","BES","BFA","BGD","BGR","BHR","BHS","BIH","BLM","BLR","BLZ","BMU","BOL","BRA","BRB","BRN","BTN","BVT","BWA","CAF","CAN","CCK","CHE","CHL","CHN","CIV","CMR","COD","COG","COK","COL","COM","CPV","CRI","CUB","CUW","CXR","CYM","CYP","CZE","DEU","DJI","DMA","DNK","DOM","DZA","ECU","EGY","ERI","ESH","ESP","EST","ETH","FIN","FJI","FLK","FRA","FRO","FSM","GAB","GBR","GEO","GGY","GHA","GIB","GIN","GLP","GMB","GNB","GNQ","GRC","GRD","GRL","GTM","GUF","GUM","GUY","HKG","HMD","HND","HRV","HTI","HUN","IDN","IMN","IND","IOT","IRL","IRN","IRQ","ISL","ISR","ITA","JAM","JEY","JOR","JPN","KAZ","KEN","KGZ","KHM","KIR","KNA","KOR","XKX","KWT","LAO","LBN","LBR","LBY","LCA","LIE","LKA","LSO","LTU","LUX","LVA","MAC","MAF","MAR","MCO","MDA","MDG","MDV","MEX","MHL","MKD","MLI","MLT","MMR","MNE","MNG","MNP","MOZ","MRT","MSR","MTQ","MUS","MWI","MYS","MYT","NAM","NCL","NER","NFK","NGA","NIC","NIU","NLD","NOR","NPL","NRU","NZL","OMN","PAK","PAN","PCN","PER","PHL","PLW","PNG","POL","PRI","PRK","PRT","PRY","PSE","PYF","QAT","REU","ROU","RUS","RWA","SAU","SDN","SEN","SGP","SGS","SHN","SJM","SLB","SLE","SLV","SMR","SOM","SPM","SRB","SSD","STP","SUR","SVK","SVN","SWE","SWZ","SXM","SYC","SYR","TCA","TCD","TGO","THA","TJK","TKL","TKM","TLS","TON","TTO","TUN","TUR","TUV","TWN","TZA","UGA","UKR","UMI","URY","USA","UZB","VAT","VCT","VEN","VGB","VIR","VNM","VUT","WLF","WSM","YEM","ZAF","ZMB","ZWE"]
+          },
+        "subsector": {
+            "title": "Emission SubSector",
+            "description": "One of the well known enumerated emission sectors",
+            "enum": [
+              "electricity-generation",
+              "steel-manufacturing",
+              "cement-manufacturing",
+              "aluminum-manufacturing",
+              "pulp-paper-manufacturing",
+              "chemical-manufacturing",
+              "shipping",
+              "aviation",
+              "road-transportation",
+              "oil-gas-production",
+              "oil-gas-refining ",
+              "coal-mining",
+              "bauxite-mining",
+              "iron-mining",
+              "copper-mining",
+              "forest-clearing-source",
+              "forest-sink",
+              "forest-net",
+              "forest-fires",
+              "scrubland-fires",
+              "cropland-fires",
+              "savannas-fires",
+              "peatland-fires",
+              "rice-cultivation",
+              "enteric-fermentation",
+              "manure-management",
+              "soil-management",
+              "solid-waste-disposal"
+            ]
+          },
+        "emissionType": {
+            "title": "Base numeric emissions type",
+            "type": "number",
+            "nullable": true
+        }
+        }          
+        
+    }

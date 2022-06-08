@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema#",
+    "$id": "https://climatetrace.org/schemas/core-emissions.json#",
+    "title": "Core Emissions",
+    "type": "array",
+    "description": "This is an array of country level emissions reportsd",
+    "items":{
+        "$ref": "#/definitions/CountryEmission"
+    },    
+    "definitions": {
+      "CountryEmissions": {
+        "type": "object",
+        "properties": {
+          "country_code": {
+            "$ref": "common.json#/definitions/country"
+          },
+          "year": {
+              "type":"number",
+              "nullable": false
+          },
+          "sub_sector_name": {
+            "$ref": "#/definitions/subsector"  
+          },
+          "c02": {
+            "$ref": "#/definitions/emission"
+          },
+          "ch4": {
+            "$ref": "#/definitions/emission"
+          },
+          "n20": {
+            "$ref": "#/definitions/emission"
+          },
+          "c0220": {
+            "$ref": "#/definitions/emission"
+          },
+          "c02100": {
+            "$ref": "#/definitions/emission"
+          }
+        }
+      }
+    }
+}
