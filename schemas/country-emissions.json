@@ -3,7 +3,7 @@
     "$id": "https://climatetrace.org/schemas/country-emissions.json#",
     "title": "Core Emissions",
     "type": "array",
-    "description": "This is an array of country level emissions reportsd",
+    "description": "This is an array of country level emissions reports",
     "items":{
         "$ref": "#/definitions/CountryEmission"
     },    
@@ -19,22 +19,22 @@
               "nullable": false
           },
           "sub_sector_name": {
-            "$ref": "#/definitions/subsector"  
+            "$ref": "common.json#/definitions/subsector"  
           },
           "c02": {
-            "$ref": "#/definitions/emission"
+            "$ref": "commons.json#/definitions/emission"
           },
           "ch4": {
-            "$ref": "#/definitions/emission"
+            "$ref": "commons.json#/definitions/emission"
           },
           "n20": {
-            "$ref": "#/definitions/emission"
+            "$ref": "commons.json#/definitions/emission"
           },
           "c0220": {
-            "$ref": "#/definitions/emission"
+            "$ref": "commons.json#/definitions/emission"
           },
           "c02100": {
-            "$ref": "#/definitions/emission"
+            "$ref": "commons.json#/definitions/emission"
           }
         }
       }
