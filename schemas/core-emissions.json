@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema#",
-  "$id": "https://climatetrace.org/schemas/core-emissions.json#",
+  "$id": "https://raw.githubusercontent.com/earthrise-media/trace-schemas/main/schemas/country-emissions.json#",
   "title": "Core Emissions",
   "type": "object",
   "description": "This object represents the core metadata model for sector specific emissions.",
