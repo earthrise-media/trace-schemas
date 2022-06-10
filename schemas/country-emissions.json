@@ -8,33 +8,34 @@
         "$ref": "#/definitions/CountryEmission"
     },    
     "definitions": {
-      "CountryEmissions": {
+      "CountryEmission": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "country_code": {
-            "$ref": "common.json#/definitions/country"
+            "$ref": "./common.json#/definitions/country"
           },
           "year": {
               "type":"number",
               "nullable": false
           },
           "sub_sector_name": {
-            "$ref": "common.json#/definitions/subsector"  
+            "$ref": "./common.json#/definitions/subsector"  
           },
-          "c02": {
-            "$ref": "commons.json#/definitions/emission"
+          "co2": {
+            "$ref": "./common.json#/definitions/emissionType"  
           },
           "ch4": {
-            "$ref": "commons.json#/definitions/emission"
+            "$ref": "./common.json#/definitions/emissionType"  
           },
           "n20": {
-            "$ref": "commons.json#/definitions/emission"
+            "$ref": "./common.json#/definitions/emissionType"  
           },
-          "c0220": {
-            "$ref": "commons.json#/definitions/emission"
+          "co220": {
+            "$ref": "./common.json#/definitions/emissionType"  
           },
-          "c02100": {
-            "$ref": "commons.json#/definitions/emission"
+          "co2100": {
+            "$ref": "./common.json#/definitions/emissionType"  
           }
         }
       }
