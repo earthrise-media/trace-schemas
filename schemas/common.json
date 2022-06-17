@@ -319,7 +319,7 @@
         "forest-fires",
         "savannas-fires",
         "scrubland-fires",
-        "peatland-fires",
+        "peatland-fires"
       ]
     },
     "emissionType": {
