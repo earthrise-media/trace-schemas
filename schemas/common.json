@@ -9,10 +9,7 @@
       "type": "string",
       "minLength": 3,
       "maxLength": 3,
-      "enum": [
-        "ABW",
-        "AFG",
-        "AGO",
+      "enum": ["ABW","AFG","AGO",
         "AIA",
         "ALA",
         "ALB",
@@ -307,9 +304,9 @@
         "incineration-and-open-burning-of-waste",
         "wastewater-treatment-and-discharge",
         "fluorinated-gases",
-        "forest-land-sources",
+        "forest-clearing",
         "forest-land-sink",
-        "grassland-sources",
+        "forest-land-sources",
         "grassland-sink",
         "wetland-sources",
         "wetland-sink",
@@ -324,10 +321,7 @@
     },
     "emissionType": {
       "title": "Base numeric emissions type",
-      "type": [
-        "number",
-        "null"
-      ],
+      "type": ["number","null"],
       "nullable": true
     }
   }
