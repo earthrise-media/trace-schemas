@@ -10,18 +10,21 @@
     "title": "ClimateTRACE API v4"
   },
   "servers": [
-    {"description": "Development",
-    "url": "https://api.dev.climatetrace.org"
+    {
+      "description": "Development",
+      "url": "https://api.dev.climatetrace.org"
     },
     {
       "description": "Staging",
       "url": "https://api.staging.climatetrace.org"
     },
-    {"description": "Production",
+    {
+      "description": "Production",
       "url": "https://api.climatetrace.org"
     }
   ],
-  "tags": [  {
+  "tags": [
+    {
       "name": "Assets",
       "description": "Operations related to assets"
     },
@@ -36,7 +39,8 @@
     {
       "name": "Tiles",
       "description": "Operations related to tiles"
-    }   ],
+    }
+  ],
   "paths": {
     "/v4/assets": {
       "get": {
@@ -90,7 +94,7 @@
         ],
         "summary": "Provides a list of assets in GeoJSON format",
         "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location. The asset's actual geometry type is made available in the response and the actual geometry can be retrieved at the asset detail endpoint",
-        "operationId": "get-assets",
+        "operationId": "search-assets",
         "parameters": [
           {
             "$ref": "#/components/parameters/limit"
@@ -170,7 +174,7 @@
     "/v4/assets/countries": {
       "get": {
         "tags": [
-          "Assets"          
+          "Assets"
         ],
         "summary": "Provides a list of countries (ISO3 codes) and the number of assets within it",
         "description": "",
@@ -239,13 +243,11 @@
             }
           },
           "400": {
-
             "$ref": "#/components/responses/400"
           }
         }
       }
     },
-
     "/v4/country/emissions/timeseries/sectors": {
       "get": {
         "tags": [
@@ -255,12 +257,15 @@
         "description": "This operation replaces /emissions_by_sector_time-series in the v1 API",
         "operationId": "get-emissions-timeseries-sector",
         "parameters": [
-          {"$ref": "#/components/parameters/countries_csv_optional"},
           {
-              "$ref": "#/components/parameters/since"
-            },
-          {"$ref": "#/components/parameters/to"}
-
+            "$ref": "#/components/parameters/countries_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/since"
+          },
+          {
+            "$ref": "#/components/parameters/to"
+          }
         ],
         "responses": {
           "200": {
@@ -320,7 +325,6 @@
           },
           "400": {
             "$ref": "#/components/responses/400"
-
           },
           "404": {
             "$ref": "#/components/responses/404"
@@ -389,7 +393,7 @@
             "$ref": "#/components/parameters/continents_csv_optional"
           },
           {
-            "$ref" : "#/components/parameters/countries_csv_optional"
+            "$ref": "#/components/parameters/countries_csv_optional"
           }
         ],
         "responses": {
@@ -415,7 +419,7 @@
     "/v4/country/emissions/global": {
       "get": {
         "tags": [
-        "Country"
+          "Country"
         ],
         "summary": "",
         "description": "This returns emissions aggregated by country for a given list of sectors or subsectors. Either the sectors or subsectors parameter is required - sectors take precedence",
@@ -427,7 +431,8 @@
           {
             "$ref": "#/components/parameters/to"
           },
-          { "$ref": "#/components/parameters/sectors_csv_optional"
+          {
+            "$ref": "#/components/parameters/sectors_csv_optional"
           },
           {
             "$ref": "#/components/parameters/subsectors_csv_optional"
@@ -453,17 +458,294 @@
         }
       }
     },
-
-    "/v4/tiles/raster": {},
-    "/v4/tiles/raster/{sector}": {},
-    "/v4/tiles/raster/{sector}/{year}": {},
-    "/v4/tiles/raster/{sector}/{year}/{z}/{x}/{y}.webp": {},
-
-    "/v4/tiles/vector": {},
-    "/v4/tiles/vector/{sector}": {},
-    "/v4/tiles/vector/{sector}/{year}": {},
-    "/v4/tiles/vector/{sector}/{year}/{z}/{x}/{y}.pbf": {},
-
+    "/v4/tiles/raster": {
+      "get": {
+        "summary": "Get Raster Tiles",
+        "description": "Returns a list of sectors for which tile layers are available",
+        "operationId": "get-raster-tile-sectors",
+        "tags": [
+          "Tiles"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemDefinitions"
+                  }
+                }
+              }
+            },
+            "description": "A generic list of sectors"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/raster/{sector}": {
+      "get": {
+        "summary": "Get Raster tile years",
+        "description": "Returns a list of years for which tile layers are available for the provided sector",
+        "operationId": "get-raster-tile-sector-years",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemDefinitions"
+                  }
+                }
+              }
+            },
+            "description": "A generic list of years"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/raster/{sector}/{year}": {
+      "get": {
+        "summary": "Get Tile Json",
+        "description": "Returns a tilejson document describing the tileset available for the given year and sector",
+        "operationId": "get-raster-tile-json",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          },
+          {
+            "$ref": "#/components/parameters/year_path"
+          }
+        ],
+        "tags": [
+          "Tiles"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+                }
+              }
+            },
+            "description": "A tilejson document"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/raster/{sector}/{year}/{z}/{x}/{y}.webp": {
+      "get": {
+        "operationId": "get-raster-tile",
+        "summary": "",
+        "description": "",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          },
+          {
+            "$ref": "#/components/parameters/year_path"
+          },
+          {
+            "$ref": "#/components/parameters/x"
+          },
+          {
+            "$ref": "#/components/parameters/y"
+          },
+          {
+            "$ref": "#/components/parameters/z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "image/webp": {
+                "schema": {
+                  "format": "binary"
+                }
+              }
+            },
+            "description": "A webp image"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector": {
+      "get": {
+        "summary": "Get Sector tiles",
+        "description": "Returns a list of sectors for which vector tiles are available",
+        "operationId": "get-vector-tile-sectors",
+        "tags": [
+          "Tiles"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemDefinitions"
+                  }
+                }
+              }
+            },
+            "description": "A generic list of sectors"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/{sector}": {
+      "get": {
+        "summary": "Get vector tile years",
+        "description": "Returns a list of years for which vector tiles are available for the given sector",
+        "operationId": "get-vector-tile-sectors-years",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemDefinitions"
+                  }
+                }
+              }
+            },
+            "description": "A generic list of years"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/{sector}/{year}": {
+      "get": {
+        "summary": "",
+        "description": "",
+        "operationId": "get-vector-tile-json",
+        "tags": [
+          "Tiles"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+                }
+              }
+            },
+            "description": "A tilejson document"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/{sector}/{year}/{z}/{x}/{y}.pbf": {
+      "get": {
+        "summary": "",
+        "description": "",
+        "operationId": "get-vector-tile",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          },
+          {
+            "$ref": "#/components/parameters/year_path"
+          },
+          {
+            "$ref": "#/components/parameters/x"
+          },
+          {
+            "$ref": "#/components/parameters/y"
+          },
+          {
+            "$ref": "#/components/parameters/z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "vector tile",
+            "content": {
+              "application/vnd.mapbox-vector-tile": {
+                "schema": {
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
     "/v4/definitions/sectors": {
       "get": {
         "tags": [
@@ -666,7 +948,7 @@
     "/v4/definitions/subsectors": {
       "get": {
         "tags": [
-          "Definitions"          
+          "Definitions"
         ],
         "summary": "Provides a list of SubSectors",
         "description": "This operation replaces /subsectors in the v1 API",
@@ -873,6 +1155,22 @@
           "default": 2020
         }
       },
+      "year_path": {
+        "name": "year",
+        "in": "path",
+        "description": "A 4 digit year",
+        "required": false,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 2050,
+            "minimum": 2020
+          }
+        }
+      },
       "years_csv": {
         "name": "years",
         "in": "query",
@@ -908,7 +1206,7 @@
         "style": "simple",
         "explode": false,
         "schema": {
-            "$ref": "#/components/schemas/Sector"
+          "$ref": "#/components/schemas/Sector"
         }
       },
       "sector_optional": {
@@ -953,7 +1251,7 @@
           }
         }
       },
-      "subsectors_csv_optional" : {
+      "subsectors_csv_optional": {
         "name": "subsectors",
         "in": "query",
         "description": "A comma separated list of SubSectors",
@@ -964,7 +1262,7 @@
           "$ref": "#/components/schemas/Subsector"
         }
       },
-      "subsector_optional" : {
+      "subsector_optional": {
         "name": "subsectors",
         "in": "query",
         "description": "A subSectors",
@@ -975,7 +1273,7 @@
           "$ref": "#/components/schemas/Subsector"
         }
       },
-      "subsector_path" : {
+      "subsector_path": {
         "name": "subsectors",
         "in": "path",
         "description": "A subsector",
@@ -992,8 +1290,40 @@
         "schema": {
           "$ref": "#/components/schemas/Gas"
         }
+      },
+      "z": {
+        "name": "z",
+        "in": "path",
+        "description": "the zoom value",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "maximum": 16,
+          "minimum": 0
+        }
+      },
+      "x": {
+        "name": "x",
+        "in": "path",
+        "description": "the x value",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 70000
+        }
+      },
+      "y": {
+        "name": "y",
+        "in": "path",
+        "description": "the y value",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 70000
+        }
       }
-
     },
     "schemas": {
       "FeatureCollection": {
@@ -1066,13 +1396,14 @@
         ],
         "type": "object"
       },
-
       "CountryEmissions": {
         "type": "array",
         "items": {
           "type": "object",
           "properties": {
-            "Country": { "$ref": "#/components/schemas/Country"},
+            "Country": {
+              "$ref": "#/components/schemas/Country"
+            },
             "Emissions": {
               "type": "number"
             },
@@ -1167,9 +1498,12 @@
       "CountryAggregatedEmission": {
         "type": "object",
         "properties": {
-          "Country": { "$ref": "#/components/schemas/Country"},
-          "Continent": { "$ref": "#/components/schemas/Continent"},
-          
+          "Country": {
+            "$ref": "#/components/schemas/Country"
+          },
+          "Continent": {
+            "$ref": "#/components/schemas/Continent"
+          },
           "Rank": {
             "type": "integer",
             "nullable": true
@@ -1188,36 +1522,70 @@
       },
       "SimpleGasEmissions": {
         "type": "array",
-        "items": {"$ref": "#/components/schemas/SimpleGasEmission"}
+        "items": {
+          "$ref": "#/components/schemas/SimpleGasEmission"
+        }
       },
       "SimpleGasEmission": {
         "type": "object",
         "properties": {
-          "gas": {"$ref": "#/components/schemas/Gas" },
-          "value": {"type": "number"}
+          "gas": {
+            "$ref": "#/components/schemas/Gas"
+          },
+          "value": {
+            "type": "number"
+          }
         }
       },
-      "DataAvailabilities" : {"type":  "array", "items" : {"$ref": "#/components/schemas/DataAvailability"}},
-      "DataAvailability" : {
+      "DataAvailabilities": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/DataAvailability"
+        }
+      },
+      "DataAvailability": {
         "type": "object",
         "properties": {
-          "name" : {
+          "name": {
             "type": "string"
           },
           "availability": {
             "type": "object",
             "properties": {
-              "co2e": {"type": "array","items": {"type": "number"}},
-              "ch4" : {"type": "array","items": {"type": "number"}},
-              "n2o" : {"type": "array","items": {"type": "number"}},
-              "co2e_20yr" : {"type": "array","items": {"type": "number"}},
-              "co2e_100yr":{"type": "array","items": {"type": "number"}}
+              "co2e": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "ch4": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "n2o": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "co2e_20yr": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              "co2e_100yr": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
             }
           }
         }
-
       },
-
       "Country": {
         "type": "string",
         "enum": [
@@ -1487,8 +1855,10 @@
           "Europe"
         ]
       },
-      "Sector": {"type": "string",
-        "enum": ["fluorinated-gases",
+      "Sector": {
+        "type": "string",
+        "enum": [
+          "fluorinated-gases",
           "manufacturing",
           "power",
           "agriculture",
@@ -1501,125 +1871,160 @@
         ]
       },
       "Subsector": {
-              "enum": ["electricity-generation",
-                "other-energy-use",
-                "domestic-aviation",
-                "international-aviation",
-                "road-transportation",
-                "railways",
-                "shipping",
-                "other-transport",
-                "residential-and-commercial-onsite-fuel-usage",
-                "other-onsite-fuel-usage",
-                "coal-mining",
-                "solid-fuel-transformation",
-                "oil-and-gas-production-and-transport",
-                "oil-and-gas-refining",
-                "other-fossil-fuel-operations",
-                "cement",
-                "chemicals",
-                "steel",
-                "aluminum",
-                "pulp-and-paper",
-                "other-manufacturing",
-                "bauxite-mining",
-                "copper-mining",
-                "iron-mining",
-                "rock-quarrying",
-                "sand-quarrying",
-                "other-mineral-extraction",
-                "enteric-fermentation",
-                "manure-management",
-                "rice-cultivation",
-                "synthetic-fertilizer-application",
-                "cropland-fires",
-                "other-agricultural-soil-emissions",
-                "other-agriculture",
-                "solid-waste-disposal",
-                "biological-treatment-of-solid-waste-&-biogenic",
-                "incineration-and-open-burning-of-waste",
-                "wastewater-treatment-and-discharge",
-                "fluorinated-gases",
-                "forest-clearing",
-                "forest-land-sink",
-                "forest-land-sources",
-                "grassland-sink",
-                "wetland-sources",
-                "wetland-sink",
-                "other-land-sources",
-                "other-land-sink",
-                "net-forest-emissions",
-                "forest-fires",
-                "savannas-fires",
-                "scrubland-fires",
-                "peatland-fires",
-                "forest-grassland-wetland-sink",
-                "forest-land-clearing",
-                "forest-land-degradation",
-                "forest-land-fires",
-                "grassland-fires",
-                "net-grassland-emissions",
-                "net-wetland-emissions",
-                "wetland-fires"],
-              "type": "string"
+        "enum": [
+          "electricity-generation",
+          "other-energy-use",
+          "domestic-aviation",
+          "international-aviation",
+          "road-transportation",
+          "railways",
+          "shipping",
+          "other-transport",
+          "residential-and-commercial-onsite-fuel-usage",
+          "other-onsite-fuel-usage",
+          "coal-mining",
+          "solid-fuel-transformation",
+          "oil-and-gas-production-and-transport",
+          "oil-and-gas-refining",
+          "other-fossil-fuel-operations",
+          "cement",
+          "chemicals",
+          "steel",
+          "aluminum",
+          "pulp-and-paper",
+          "other-manufacturing",
+          "bauxite-mining",
+          "copper-mining",
+          "iron-mining",
+          "rock-quarrying",
+          "sand-quarrying",
+          "other-mineral-extraction",
+          "enteric-fermentation",
+          "manure-management",
+          "rice-cultivation",
+          "synthetic-fertilizer-application",
+          "cropland-fires",
+          "other-agricultural-soil-emissions",
+          "other-agriculture",
+          "solid-waste-disposal",
+          "biological-treatment-of-solid-waste-&-biogenic",
+          "incineration-and-open-burning-of-waste",
+          "wastewater-treatment-and-discharge",
+          "fluorinated-gases",
+          "forest-clearing",
+          "forest-land-sink",
+          "forest-land-sources",
+          "grassland-sink",
+          "wetland-sources",
+          "wetland-sink",
+          "other-land-sources",
+          "other-land-sink",
+          "net-forest-emissions",
+          "forest-fires",
+          "savannas-fires",
+          "scrubland-fires",
+          "peatland-fires",
+          "forest-grassland-wetland-sink",
+          "forest-land-clearing",
+          "forest-land-degradation",
+          "forest-land-fires",
+          "grassland-fires",
+          "net-grassland-emissions",
+          "net-wetland-emissions",
+          "wetland-fires"
+        ],
+        "type": "string"
       },
-
-      "Gas" : {"type": "string",
+      "Gas": {
+        "type": "string",
         "enum": [
           "n2o",
           "co2e",
           "co2",
           "ch4",
           "co2e_20yr",
-          "co2e_100yr"]
+          "co2e_100yr"
+        ]
       },
       "Asset": {
-        "allOf": [{"$ref": "#/components/schemas/Feature"}],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Feature"
+          }
+        ],
         "properties": {
           "emissions": {
             "$ref": "#/components/schemas/EmissionMeasurement"
           }
         }
-    },
+      },
       "AssetCollection": {
         "type": "array",
-        "items": { "$ref": "#/components/schemas/Asset" }
+        "items": {
+          "$ref": "#/components/schemas/Asset"
+        }
       },
-      "EmissionMeasurement": { "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "gas": { "type": "string" },
-              "quantity": {"type": "number"},
-              "factor": {"type": "number"},
-              "capacity": {"type": "number"},
-              "activity": {"type": "number"},
-              "activityUnits": {"type": "string"},
-              "emissionsFactor": {"type": "string"},
-              "remainder": {"type": "number"}
+      "EmissionMeasurement": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "gas": {
+              "type": "string"
             },
-            "required": [
-              "gas",
-              "quantity",
-              "factor",
-              "capacity",
-              "activity",
-              "activityUnits",
-              "emissionsFactor",
-              "remainder"
-            ]
-          }
-        },
+            "quantity": {
+              "type": "number"
+            },
+            "factor": {
+              "type": "number"
+            },
+            "capacity": {
+              "type": "number"
+            },
+            "activity": {
+              "type": "number"
+            },
+            "activityUnits": {
+              "type": "string"
+            },
+            "emissionsFactor": {
+              "type": "string"
+            },
+            "remainder": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "gas",
+            "quantity",
+            "factor",
+            "capacity",
+            "activity",
+            "activityUnits",
+            "emissionsFactor",
+            "remainder"
+          ]
+        }
+      },
       "ItemDefinition": {
         "type": "object",
         "properties": {
-          "id": {"type": "string"},
-          "description" : {"type": "string"}
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          }
         }
       },
       "ItemDefinitions": {
         "type": "array",
-        "items": { "$ref": "#/components/schemas/ItemDefinition"}
+        "items": {
+          "$ref": "#/components/schemas/ItemDefinition"
+        }
       }
     }
   }
