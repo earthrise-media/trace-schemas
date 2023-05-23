@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.3",
   "info": {
     "version": "4.0.0-alpha",
     "description": "ClimateTRACE API v4",
@@ -26,7 +26,7 @@
       "description": "Operations related to assets"
     },
     {
-      "name": "Countries",
+      "name": "Country",
       "description": "Operations related to assets"
     },
     {
@@ -34,17 +34,9 @@
       "description": "Operations that provide definitions for various things"
     },
     {
-      "name": "Emissions",
-      "description": "Operations related to emissions"
-    },
-    {
       "name": "Tiles",
       "description": "Operations related to tiles"
-    },
-    {
-      "name": "Summaries",
-      "description": "Operations related to summaries"
-    }],
+    }   ],
   "paths": {
     "/v4/assets": {
       "get": {
@@ -178,8 +170,7 @@
     "/v4/assets/countries": {
       "get": {
         "tags": [
-          "Assets",
-          "Summaries"
+          "Assets"          
         ],
         "summary": "Provides a list of countries (ISO3 codes) and the number of assets within it",
         "description": "",
@@ -204,7 +195,7 @@
     "/v4/assets/emissions/remainders": {
       "get": {
         "tags": [
-          "Emissions"
+          "Assets"
         ],
         "summary": "Provides a list of remainders by sector",
         "description": "",
@@ -424,8 +415,7 @@
     "/v4/country/emissions/global": {
       "get": {
         "tags": [
-          "Emissions",
-          "Aggregation"
+        "Country"
         ],
         "summary": "",
         "description": "This returns emissions aggregated by country for a given list of sectors or subsectors. Either the sectors or subsectors parameter is required - sectors take precedence",
@@ -676,8 +666,7 @@
     "/v4/definitions/subsectors": {
       "get": {
         "tags": [
-          "Definitions",
-          "Sub-Sectors"
+          "Definitions"          
         ],
         "summary": "Provides a list of SubSectors",
         "description": "This operation replaces /subsectors in the v1 API",
@@ -1083,10 +1072,7 @@
         "items": {
           "type": "object",
           "properties": {
-            "Country": {
-              "type": "string",
-              "maxLength": 3
-            },
+            "Country": { "$ref": "#/components/schemas/Country"},
             "Emissions": {
               "type": "number"
             },
@@ -1097,7 +1083,7 @@
               "$ref": "#/components/schemas/Gas"
             },
             "Sector": {
-              "type": "string"
+              "$ref": "#/components/schemas/Sector"
             }
           }
         }
@@ -1108,7 +1094,7 @@
           "type": "object",
           "properties": {
             "Continent": {
-              "type": "string"
+              "$ref": "#/components/schemas/Continent"
             },
             "Emissions": {
               "type": "number"
@@ -1120,7 +1106,7 @@
               "$ref": "#/components/schemas/Gas"
             },
             "Sector": {
-              "type": "string"
+              "$ref": "#/components/schemas/Sector"
             }
           }
         }
@@ -1140,7 +1126,7 @@
               "$ref": "#/components/schemas/Gas"
             },
             "Sector": {
-              "type": "string"
+              "$ref": "#/components/schemas/Sector"
             }
           }
         }
@@ -1162,11 +1148,12 @@
       },
       "BaseEmission": {
         "required": [
-          "c02",
-          "c02100",
-          "c0220",
+          "n2o",
+          "co2e",
+          "co2",
           "ch4",
-          "n02",
+          "co2e_20yr",
+          "co2e_100yr",
           "year"
         ],
         "type": "object",
@@ -1180,16 +1167,9 @@
       "CountryAggregatedEmission": {
         "type": "object",
         "properties": {
-          "Country": {
-            "maxLength": 3,
-            "minLength": 3,
-            "type": "string",
-            "nullable": true
-          },
-          "Continent": {
-            "type": "string",
-            "nullable": true
-          },
+          "Country": { "$ref": "#/components/schemas/Country"},
+          "Continent": { "$ref": "#/components/schemas/Continent"},
+          
           "Rank": {
             "type": "integer",
             "nullable": true
@@ -1597,7 +1577,7 @@
         "allOf": [{"$ref": "#/components/schemas/Feature"}],
         "properties": {
           "emissions": {
-            "type": [{"$ref": "#/components/schemas/EmissionMeasurement"}]
+            "$ref": "#/components/schemas/EmissionMeasurement"
           }
         }
     },
@@ -1605,7 +1585,7 @@
         "type": "array",
         "items": { "$ref": "#/components/schemas/Asset" }
       },
-      "EmissionMeasurement": { "type": ["array"],
+      "EmissionMeasurement": { "type": "array",
           "items": {
             "type": "object",
             "properties": {
