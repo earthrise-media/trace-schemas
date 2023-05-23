@@ -80,7 +80,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "https://geojson.org/schema/FeatureCollection.json"
+                  "$ref": "#/components/schemas/AssetCollection"
                 }
               }
             }
@@ -125,7 +125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "https://geojson.org/schema/FeatureCollection.json"
+                  "$ref": "#/components/schemas/AssetCollection"
                 }
               }
             }
@@ -164,7 +164,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "https://geojson.org/schema/FeatureCollection.json"
+                  "$ref": "#/components/schemas/AssetCollection"
                 }
               }
             }
@@ -551,8 +551,7 @@
     "/v4/definitions/countries/{country}": {
       "get": {
         "tags": [
-          "Definitions",
-          "Countries"
+          "Definitions"
         ],
         "summary": "Provides detail for a specific country",
         "description": "This operation is new in the v3 API",
@@ -568,41 +567,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Feature"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/v4/definitions/countries/{country}/population": {
-      "get": {
-        "tags": [
-          "Definitions",
-          "Countries"
-        ],
-        "summary": "Provides country population",
-        "description": "This operation is new in the v3 API",
-        "operationId": "get-country-population",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/country_path"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Population detail by year",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PopulationResponse"
+                  "$ref": "#/components/schemas/ItemDefinition"
                 }
               }
             }
@@ -644,8 +609,7 @@
     "/v4/definitions/continents/{continent}": {
       "get": {
         "tags": [
-          "Definitions",
-          "Continents"
+          "Definitions"
         ],
         "summary": "Provides continents detail",
         "description": "This operation is new in the v3 API",
@@ -661,7 +625,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inline_response_200_2"
+                  "$ref": "#/components/schemas/ItemDefinition"
                 }
               }
             }
@@ -703,8 +667,7 @@
     "/v4/definitions/subsectors/{subsector}": {
       "get": {
         "tags": [
-          "Definitions",
-          "Sub-Sectors"
+          "Definitions"
         ],
         "summary": "Provides detail for a specific sub-sector",
         "description": "This operation replaces /subsectors in the v1 API",
@@ -720,7 +683,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inline_response_200_1"
+                  "$ref": "#/components/schemas/ItemDefinition"
                 }
               }
             }
@@ -1111,12 +1074,9 @@
         "additionalProperties": false
       },
       "ProblemParams": {
-        "required": [
-          "name",
-          "path",
-          "reason"
-        ],
-        "type": "object",
+        "additionalProperties": false,
+        "description": "The validation error descriptor.",
+        "example": null,
         "properties": {
           "path": {
             "type": "string"
@@ -1128,9 +1088,12 @@
             "type": "string"
           }
         },
-        "additionalProperties": false,
-        "description": "The validation error descriptor.",
-        "example": null
+        "required": [
+          "name",
+          "path",
+          "reason"
+        ],
+        "type": "object"
       },
       "CountryEmissions": {
         "type": "array",
@@ -1589,7 +1552,18 @@
               "remainder"
             ]
           }
+        },
+      "ItemDefinition": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "description" : {"type": "string"}
         }
+      },
+      "ItemDefinitions": {
+        "type": "array",
+        "items": { "$ref": "#/components/schemas/ItemDefinition"}
+      }
     }
   }
 }
