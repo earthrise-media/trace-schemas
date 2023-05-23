@@ -258,8 +258,7 @@
     "/v4/country/emissions/timeseries/sectors": {
       "get": {
         "tags": [
-          "Emissions",
-          "Time Series"
+          "Country"
         ],
         "summary": "Provides emissions time-series emissions data, broken down by sector",
         "description": "This operation replaces /emissions_by_sector_time-series in the v1 API",
@@ -284,24 +283,10 @@
             }
           },
           "400": {
-            "description": "An invalid request was received",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           },
           "404": {
-            "description": "The requested item was not found",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -309,8 +294,7 @@
     "/v4/country/emissions/timeseries/sectors/{sector}": {
       "get": {
         "tags": [
-          "Emissions",
-          "Time Series"
+          "Country"
         ],
         "summary": "Provides emissions time-series detail by subsector",
         "description": "This operation replaces /emissions_by_subsector_timeseries in the v1 API. One of the country or continent parameters is required - continent takes precedence if both are provided ",
@@ -356,7 +340,7 @@
     "/v4/country/emissions/availability": {
       "get": {
         "tags": [
-          "Emissions"
+          "Country"
         ],
         "summary": "Provides a list of available data time spans",
         "description": "This operation returns a list of years for which data is available, for the given country and sector or subsector. Subsector takes presedence if both are provided",
@@ -378,7 +362,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inline_response_200_4"
+                  "$ref": "#/components/schemas/DataAvailabilities"
                 }
               }
             }
@@ -392,9 +376,7 @@
     "/v4/country/emissions": {
       "get": {
         "tags": [
-          "Emissions",
-          "Country",
-          "Aggregation"
+          "Country"
         ],
         "summary": "",
         "description": "This returns emissions aggregated by country for a given list of sectors or subsectors. Either the sectors or subsectors parameter is required - sectors take precedence",
@@ -427,7 +409,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AggregatedEmission"
+                    "$ref": "#/components/schemas/CountryAggregatedEmission"
                   }
                 }
               }
@@ -1095,6 +1077,7 @@
         ],
         "type": "object"
       },
+
       "CountryEmissions": {
         "type": "array",
         "items": {
@@ -1162,6 +1145,99 @@
           }
         }
       },
+      "TimeSeriesEmission": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": false
+          },
+          "emissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BaseEmission"
+            }
+          }
+        }
+      },
+      "BaseEmission": {
+        "required": [
+          "c02",
+          "c02100",
+          "c0220",
+          "ch4",
+          "n02",
+          "year"
+        ],
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "nullable": false
+          }
+        }
+      },
+      "CountryAggregatedEmission": {
+        "type": "object",
+        "properties": {
+          "Country": {
+            "maxLength": 3,
+            "minLength": 3,
+            "type": "string",
+            "nullable": true
+          },
+          "Continent": {
+            "type": "string",
+            "nullable": true
+          },
+          "Rank": {
+            "type": "integer",
+            "nullable": true
+          },
+          "PreviousRank": {
+            "type": "integer",
+            "nullable": true
+          },
+          "Emissions": {
+            "$ref": "#/components/schemas/SimpleGasEmissions"
+          },
+          "WorldEmissions": {
+            "$ref": "#/components/schemas/SimpleGasEmissions"
+          }
+        }
+      },
+      "SimpleGasEmissions": {
+        "type": "array",
+        "items": {"$ref": "#/components/schemas/SimpleGasEmission"}
+      },
+      "SimpleGasEmission": {
+        "type": "object",
+        "properties": {
+          "gas": {"$ref": "#/components/schemas/Gas" },
+          "value": {"type": "number"}
+        }
+      },
+      "DataAvailabilities" : {"type":  "array", "items" : {"$ref": "#/components/schemas/DataAvailability"}},
+      "DataAvailability" : {
+        "type": "object",
+        "properties": {
+          "name" : {
+            "type": "string"
+          },
+          "availability": {
+            "type": "object",
+            "properties": {
+              "co2e": {"type": "array","items": {"type": "number"}},
+              "ch4" : {"type": "array","items": {"type": "number"}},
+              "n2o" : {"type": "array","items": {"type": "number"}},
+              "co2e_20yr" : {"type": "array","items": {"type": "number"}},
+              "co2e_100yr":{"type": "array","items": {"type": "number"}}
+            }
+          }
+        }
+
+      },
+
       "Country": {
         "type": "string",
         "enum": [
@@ -1507,6 +1583,7 @@
                 "wetland-fires"],
               "type": "string"
       },
+
       "Gas" : {"type": "string",
         "enum": [
           "n2o",
