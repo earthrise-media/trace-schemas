@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "$id": "https://raw.githubusercontent.com/earthrise-media/trace-schemas/main/schemas/common.json#",
+  "title": "V4 Emissions Types",
+  "definitions": {
+    "Asset": {
+        "allOf": [{"$ref": "#/components/schemas/Feature"}],
+        "properties": {
+          "emissions": {
+            "oneOf": [
+              {"type": ["object"]},
+              {"type": ["null"]}
+            ]
+          }
+        }
+    },
+    "emissions": { "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "gas": { "type": "string" },
+              "quantity": {"type": "number"},
+              "factor": {"type": "number"},
+              "capacity": {"type": "number"},
+              "activity": {"type": "number"},
+              "activityUnits": {"type": "string"},
+              "emissionsFactor": {"type": "string"},
+              "remainder": {"type": "number"}
+            },
+            "required": [
+              "gas",
+              "quantity",
+              "factor",
+              "capacity",
+              "activity",
+              "activityUnits",
+              "emissionsFactor",
+              "remainder"
+            ]
+          }
+        }
+  }
+
+}
+

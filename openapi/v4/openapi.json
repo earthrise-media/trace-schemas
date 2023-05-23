@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
     "version": "4.0.0-alpha",
     "description": "ClimateTRACE API v4",
@@ -47,6 +47,51 @@
     }],
   "paths": {
     "/v4/assets": {
+      "get": {
+        "tags": [
+          "Assets"
+        ],
+        "summary": "Provides a list of assets in GeoJSON format",
+        "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location. The asset's actual geometry type is made available in the response and the actual geometry can be retrieved at the asset detail endpoint",
+        "operationId": "get-assets",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/offset"
+          },
+          {
+            "$ref": "#/components/parameters/countries_csv"
+          },
+          {
+            "$ref": "#/components/parameters/sectors_csv"
+          },
+          {
+            "$ref": "#/components/parameters/gas"
+          },
+          {
+            "$ref": "#/components/parameters/continents_csv_optional"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Assets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://geojson.org/schema/FeatureCollection.json"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          }
+        }
+      }
+    },
+    "/v4/assets/search": {
       "get": {
         "tags": [
           "Assets"
@@ -272,82 +317,19 @@
         "operationId": "get-emissions-timeseries-subsector",
         "parameters": [
           {
-            "name": "countries",
-            "in": "query",
-            "description": "A comma separated list of 3 letter code specifying the countries",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/countries_csv_optional"
           },
           {
-            "name": "continents",
-            "in": "query",
-            "description": "A comma separated list of continents",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "enum": ["Africa",
-                "Europe",
-                "South America",
-                "Oceania",
-                "Antarctica",
-                "North America",
-                "Asia"],
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/continents_csv_optional"
           },
           {
-            "name": "since",
-            "in": "query",
-            "description": "The start year (inclusive). Must be less than 'to' parameter",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "maximum": 2050,
-              "minimum": 2000,
-              "type": "integer",
-              "default": 2010
-            }
+            "$ref": "#/components/parameters/since"
           },
           {
-            "name": "to",
-            "in": "query",
-            "description": "The end year (inclusive). Must be larger than 'since' parameter",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "maximum": 2050,
-              "minimum": 2000,
-              "type": "integer",
-              "default": 2020
-            }
+            "$ref": "#/components/parameters/to"
           },
           {
-            "name": "sector",
-            "in": "path",
-            "description": "The Sector",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "enum": ["fossil-fuel-operations",
-                "power",
-                "waste",
-                "agriculture",
-                "mineral-extraction",
-                "fluorinated-gases",
-                "forestry-and-land-use",
-                "manufacturing",
-                "buildings",
-                "transportation"],
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/sector_path"
           }
         ],
         "responses": {
@@ -362,24 +344,11 @@
             }
           },
           "400": {
-            "description": "An invalid request was received",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
+
           },
           "404": {
-            "description": "The requested item was not found",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -394,107 +363,13 @@
         "operationId": "get-emissions-availability",
         "parameters": [
           {
-            "name": "countries",
-            "in": "query",
-            "description": "A comma separated list of 3 letter code specifying the countries",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/countries_csv_optional"
           },
           {
-            "name": "subsector",
-            "in": "query",
-            "description": "The SubSector",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "enum": ["electricity-generation",
-                "other-energy-use",
-                "domestic-aviation",
-                "international-aviation",
-                "road-transportation",
-                "railways",
-                "shipping",
-                "other-transport",
-                "residential-and-commercial-onsite-fuel-usage",
-                "other-onsite-fuel-usage",
-                "coal-mining",
-                "solid-fuel-transformation",
-                "oil-and-gas-production-and-transport",
-                "oil-and-gas-refining",
-                "other-fossil-fuel-operations",
-                "cement",
-                "chemicals",
-                "steel",
-                "aluminum",
-                "pulp-and-paper",
-                "other-manufacturing",
-                "bauxite-mining",
-                "copper-mining",
-                "iron-mining",
-                "rock-quarrying",
-                "sand-quarrying",
-                "other-mineral-extraction",
-                "enteric-fermentation",
-                "manure-management",
-                "rice-cultivation",
-                "synthetic-fertilizer-application",
-                "cropland-fires",
-                "other-agricultural-soil-emissions",
-                "other-agriculture",
-                "solid-waste-disposal",
-                "biological-treatment-of-solid-waste-&-biogenic",
-                "incineration-and-open-burning-of-waste",
-                "wastewater-treatment-and-discharge",
-                "fluorinated-gases",
-                "forest-clearing",
-                "forest-land-sink",
-                "forest-land-sources",
-                "grassland-sink",
-                "wetland-sources",
-                "wetland-sink",
-                "other-land-sources",
-                "other-land-sink",
-                "net-forest-emissions",
-                "forest-fires",
-                "savannas-fires",
-                "scrubland-fires",
-                "peatland-fires",
-                "forest-grassland-wetland-sink",
-                "forest-land-clearing",
-                "forest-land-degradation",
-                "forest-land-fires",
-                "grassland-fires",
-                "net-grassland-emissions",
-                "net-wetland-emissions",
-                "wetland-fires"],
-              "type": "string"
-            }
+            "$ref": "#/components/parameters/subsectors_csv_optional"
           },
           {
-            "name": "sector",
-            "in": "query",
-            "description": "The Sector",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string",
-              "enum": ["fossil-fuel-operations",
-                "power",
-                "waste",
-                "agriculture",
-                "mineral-extraction",
-                "fluorinated-gases",
-                "forestry-and-land-use",
-                "manufacturing",
-                "buildings",
-                "transportation"]
-            }
+            "$ref": "#/components/parameters/sectors_csv_optional"
           }
         ],
         "responses": {
@@ -509,14 +384,7 @@
             }
           },
           "400": {
-            "description": "An invalid request was received",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           }
         }
       }
@@ -525,6 +393,7 @@
       "get": {
         "tags": [
           "Emissions",
+          "Country",
           "Aggregation"
         ],
         "summary": "",
@@ -565,14 +434,7 @@
             }
           },
           "400": {
-            "description": "An invalid request was received",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           }
         }
       }
@@ -614,14 +476,7 @@
             }
           },
           "400": {
-            "description": "An invalid request was received",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            }
+            "$ref": "#/components/responses/400"
           }
         }
       }
@@ -713,7 +568,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CountryDetail"
+                  "$ref": "#/components/schemas/Feature"
                 }
               }
             }
@@ -1210,6 +1065,9 @@
       "FeatureCollection": {
         "$ref": "https://geojson.org/schema/FeatureCollection.json"
       },
+      "Feature": {
+        "$ref": "https://geojson.org/schema/Feature.json"
+      },
       "Problem": {
         "required": [
           "type"
@@ -1694,7 +1552,44 @@
           "ch4",
           "co2e_20yr",
           "co2e_100yr"]
-      }
+      },
+      "Asset": {
+        "allOf": [{"$ref": "#/components/schemas/Feature"}],
+        "properties": {
+          "emissions": {
+            "type": [{"$ref": "#/components/schemas/EmissionMeasurement"}]
+          }
+        }
+    },
+      "AssetCollection": {
+        "type": "array",
+        "items": { "$ref": "#/components/schemas/Asset" }
+      },
+      "EmissionMeasurement": { "type": ["array"],
+          "items": {
+            "type": "object",
+            "properties": {
+              "gas": { "type": "string" },
+              "quantity": {"type": "number"},
+              "factor": {"type": "number"},
+              "capacity": {"type": "number"},
+              "activity": {"type": "number"},
+              "activityUnits": {"type": "string"},
+              "emissionsFactor": {"type": "string"},
+              "remainder": {"type": "number"}
+            },
+            "required": [
+              "gas",
+              "quantity",
+              "factor",
+              "capacity",
+              "activity",
+              "activityUnits",
+              "emissionsFactor",
+              "remainder"
+            ]
+          }
+        }
     }
   }
 }

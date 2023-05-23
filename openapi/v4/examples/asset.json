@@ -1,0 +1,128 @@
+{
+  "id": 1714822,
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      166.328,
+      10.2978
+    ]
+  },
+  "emissions": {
+    "2021": [
+      {
+        "gas": "n2o",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "ch4",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2e_20yr",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2e_100yr",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      }
+    ],
+    "2022": [
+      {
+        "gas": "n2o",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "ch4",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2e_20yr",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      },
+      {
+        "gas": "co2e_100yr",
+        "quantity": null,
+        "factor": null,
+        "capacity": null,
+        "activity": 0,
+        "activityUnits": "total_fuel_consumed_tonnes",
+        "emissionsFactor": null,
+        "remainder": 0
+      }
+    ]
+  },
+  "properties": {
+    "ActualGeometryType": "ST_Point",
+    "AssetType": "international",
+    "Country": "SLB",
+    "ImageUrl": "https://api.mapbox.com/v4/mapbox.satellite/16/63047/30883@2x.jpg?access_token=pk.eyJ1IjoiZWFydGhyaXNlIiwiYSI6ImNsN3NkMGkzdjBibWYzb2xhZndnNDc1d20ifQ.e4eN5Ee2g4G-zYcOgM-VQg",
+    "Name": "Lomlom Airport",
+    "NativeAssetId": "LLM",
+    "ReportingEntity": "climate-trace",
+    "Sector": "international-aviation",
+    "SectorId": 64
+  }
+}
