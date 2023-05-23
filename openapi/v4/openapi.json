@@ -805,6 +805,22 @@
           }
         ],
         "responses": {
+          "200":{
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemDefinitions"
+                }
+              }
+            },
+            "description": "Generically encoded list of administrative areas"
+          }, 
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
         }
       }
     },
@@ -1471,7 +1487,7 @@
         "description": "a bounding box according to RFC7946 - https://datatracker.ietf.org/doc/html/rfc7946#section-5",
         "required": false,
         "name": "bbox",
-        "style": "simple",
+        "style": "deepObject",
         "in": "query",
         "example": "-10.0,-10.0,10.0,10.0",
         "schema": {
@@ -1488,7 +1504,7 @@
         "required": false,
         "name": "point",
         "in": "query",
-        "style": "simple",
+        "style": "deepObject",
         "example": "-76.3456600772524,39.53580321794458",
         "schema": {
           "type": "array",
