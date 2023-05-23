@@ -681,6 +681,12 @@
         "tags": [
           "Tiles"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          },
+          {"$ref": "#/components/parameters/year_path"}
+        ],
         "responses": {
           "200": {
             "content": {
@@ -1159,8 +1165,7 @@
         "name": "year",
         "in": "path",
         "description": "A 4 digit year",
-        "required": false,
-        "style": "form",
+        "required": true,
         "explode": true,
         "schema": {
           "type": "array",
@@ -1274,12 +1279,10 @@
         }
       },
       "subsector_path": {
-        "name": "subsectors",
+        "name": "subsector",
         "in": "path",
         "description": "A subsector",
         "required": true,
-        "style": "form",
-        "explode": true,
         "schema": {
           "$ref": "#/components/schemas/Subsector"
         }
