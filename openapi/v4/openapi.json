@@ -1520,7 +1520,7 @@
       }
     },
     "schemas": {
-      "TileJSON": {"$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json#/TileJSON"},
+      "TileJSON": {"$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"},
       "FeatureCollection": {
         "$ref": "https://geojson.org/schema/FeatureCollection.json"
       },
