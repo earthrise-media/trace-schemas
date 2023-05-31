@@ -556,7 +556,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+                  "$ref": "#/components/schemas/TileJSON"
                 }
               }
             },
@@ -704,7 +704,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+                  "$ref": "#/components/schemas/TileJSON"
                 }
               }
             },
@@ -1520,6 +1520,7 @@
       }
     },
     "schemas": {
+      "TileJSON": {"$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json#/TileJSON"},
       "FeatureCollection": {
         "$ref": "https://geojson.org/schema/FeatureCollection.json"
       },
