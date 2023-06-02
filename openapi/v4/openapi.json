@@ -1656,7 +1656,7 @@
     },
     "schemas": {
       "TileJSON": {
-        "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+        "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/3.0.0/schema.json"
       },
       "FeatureCollection": {
         "$ref": "https://geojson.org/schema/FeatureCollection.json"
