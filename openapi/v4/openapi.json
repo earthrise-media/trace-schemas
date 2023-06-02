@@ -766,7 +766,9 @@
     },
     "/v4/admins/search": {
       "get": {
-        "tags": ["Administrative Areas"],
+        "tags": [
+          "Administrative Areas"
+        ],
         "operationId": "search-admins",
         "summary": "Search for administrative areas",
         "description": "Returns a list of matching administrative ares for the given parameters",
@@ -806,7 +808,7 @@
           }
         ],
         "responses": {
-          "200":{
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
@@ -815,7 +817,7 @@
               }
             },
             "description": "Generically encoded list of administrative areas"
-          }, 
+          },
           "400": {
             "$ref": "#/components/responses/400"
           },
@@ -827,7 +829,9 @@
     },
     "/v4/admins/{adminId}": {
       "get": {
-        "tags": ["Administrative Areas"],
+        "tags": [
+          "Administrative Areas"
+        ],
         "operationId": "get-admin-by-id",
         "summary": "Get admininstrative area by id",
         "description": "Returns an administrative area by its id",
@@ -870,7 +874,9 @@
     },
     "/v4/admins/{adminId}.geojson": {
       "get": {
-        "tags": ["Administrative Areas"],
+        "tags": [
+          "Administrative Areas"
+        ],
         "operationId": "get-admin-geojson",
         "summary": "Get admininstrative area in geojson format",
         "description": "Returns an administrative area in geojson",
@@ -1139,10 +1145,24 @@
   "components": {
     "responses": {
       "400": {
-        "$ref": "#/components/responses/400"
+        "description": "Bad Request",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
       },
       "404": {
-        "$ref": "#/components/responses/404"
+        "description": "Bad Request",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
       }
     },
     "parameters": {
@@ -1520,7 +1540,9 @@
       }
     },
     "schemas": {
-      "TileJSON": {"$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"},
+      "TileJSON": {
+        "$ref": "https://raw.githubusercontent.com/mapbox/tilejson-spec/master/2.0.1/schema.json"
+      },
       "FeatureCollection": {
         "$ref": "https://geojson.org/schema/FeatureCollection.json"
       },
