@@ -795,7 +795,7 @@
         }
       }
     },
-    "/v4/tiles/vector/groups/{groups}": {
+    "/v4/tiles/vector/groups/{group}": {
       "get": {
         "summary": "",
         "description": "",
@@ -828,7 +828,7 @@
         }
       }
     },
-    "/v4/tiles/vector/groups/{groups}/{z}/{x}/{y}": {
+    "/v4/tiles/vector/groups/{group}/{z}/{x}/{y}": {
       "get": {
         "summary": "",
         "description": "",
