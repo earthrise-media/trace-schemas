@@ -838,10 +838,7 @@
         ],
         "parameters": [
           {
-            "$ref": "#/components/parameters/sector_path"
-          },
-          {
-            "$ref": "#/components/parameters/year_path"
+            "$ref": "#/components/parameters/group_path"
           },
           {
             "$ref": "#/components/parameters/x"
