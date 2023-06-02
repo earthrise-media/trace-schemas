@@ -647,7 +647,7 @@
         }
       }
     },
-    "/v4/tiles/vector/{sector}": {
+    "/v4/tiles/vector/sectors/{sector}": {
       "get": {
         "summary": "Get vector tile years",
         "description": "Returns a list of years for which vector tiles are available for the given sector",
@@ -683,7 +683,7 @@
         }
       }
     },
-    "/v4/tiles/vector/{sector}/{year}": {
+    "/v4/tiles/vector/sectors/{sector}/{year}": {
       "get": {
         "summary": "",
         "description": "",
@@ -719,7 +719,116 @@
         }
       }
     },
-    "/v4/tiles/vector/{sector}/{year}/{z}/{x}/{y}.pbf": {
+    "/v4/tiles/vector/sectors/{sector}/{year}/{z}/{x}/{y}": {
+      "get": {
+        "summary": "",
+        "description": "",
+        "operationId": "get-vector-tile",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sector_path"
+          },
+          {
+            "$ref": "#/components/parameters/year_path"
+          },
+          {
+            "$ref": "#/components/parameters/x"
+          },
+          {
+            "$ref": "#/components/parameters/y"
+          },
+          {
+            "$ref": "#/components/parameters/z"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "vector tile",
+            "content": {
+              "application/vnd.mapbox-vector-tile": {
+                "schema": {
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/groups": {
+      "get": {
+        "summary": "Get vector tile years",
+        "description": "Returns a list of years for which vector tiles are available for the given sector",
+        "operationId": "get-vector-tile-groups",
+        "tags": [
+          "Tiles"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemDefinitions"
+                  }
+                }
+              }
+            },
+            "description": "A generic list of years"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/groups/{groups}": {
+      "get": {
+        "summary": "",
+        "description": "",
+        "operationId": "get-vector-groups-tile-json",
+        "tags": [
+          "Tiles"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/group_path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TileJSON"
+                }
+              }
+            },
+            "description": "A tilejson document"
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/tiles/vector/groups/{groups}/{z}/{x}/{y}": {
       "get": {
         "summary": "",
         "description": "",
@@ -1166,6 +1275,15 @@
       }
     },
     "parameters": {
+      "group_path": {
+        "name": "group",
+        "in": "path",
+        "description": "the name of the group",
+        "schema": {
+          "type": "string",
+          "enum": ["top500"]
+        }
+      },
       "offset": {
         "name": "offset",
         "in": "query",
