@@ -12,15 +12,15 @@
   "servers": [
     {
       "description": "Development",
-      "url": "https://api.dev.climatetrace.org"
+      "url": "https://api.dev.c10e.org"
     },
     {
       "description": "Staging",
-      "url": "https://api.staging.climatetrace.org"
+      "url": "https://api.staging.c10e.org"
     },
     {
       "description": "Production",
-      "url": "https://api.climatetrace.org"
+      "url": "https://api.c10e.org"
     }
   ],
   "tags": [
@@ -978,7 +978,7 @@
         }
       }
     },
-    "/v4/admins/{adminId}.geojson": {
+    "/v4/admins/{adminId}/geojson": {
       "get": {
         "tags": [
           "Administrative Areas"
