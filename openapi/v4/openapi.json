@@ -1278,7 +1278,9 @@
         "description": "the name of the group",
         "schema": {
           "type": "string",
-          "enum": ["top500"]
+          "enum": [
+            "top500"
+          ]
         }
       },
       "offset": {
@@ -2190,16 +2192,16 @@
       "Sector": {
         "type": "string",
         "enum": [
-          "fluorinated-gases",
-          "manufacturing",
           "power",
-          "agriculture",
-          "fossil-fuel-operations",
-          "waste",
-          "buildings",
           "transportation",
-          "forestry-and-land-use",
-          "mineral-extraction"
+          "buildings",
+          "fossil-fuel-operations",
+          "manufacturing",
+          "mineral-extraction",
+          "agriculture",
+          "waste",
+          "fluorinated-gases",
+          "forestry-and-land-use"
         ]
       },
       "Subsector": {
@@ -2210,7 +2212,8 @@
           "international-aviation",
           "road-transportation",
           "railways",
-          "shipping",
+          "international-shipping",
+          "domestic-shipping",
           "other-transport",
           "residential-and-commercial-onsite-fuel-usage",
           "other-onsite-fuel-usage",
@@ -2218,6 +2221,7 @@
           "solid-fuel-transformation",
           "oil-and-gas-production-and-transport",
           "oil-and-gas-refining",
+          "petrochemicals",
           "other-fossil-fuel-operations",
           "cement",
           "chemicals",
@@ -2230,7 +2234,6 @@
           "iron-mining",
           "rock-quarrying",
           "sand-quarrying",
-          "other-mineral-extraction",
           "enteric-fermentation",
           "manure-management",
           "rice-cultivation",
@@ -2239,31 +2242,19 @@
           "other-agricultural-soil-emissions",
           "other-agriculture",
           "solid-waste-disposal",
-          "biological-treatment-of-solid-waste-&-biogenic",
+          "biological-treatment-of-solid-waste-and-biogenic",
           "incineration-and-open-burning-of-waste",
           "wastewater-treatment-and-discharge",
           "fluorinated-gases",
-          "forest-clearing",
-          "forest-land-sink",
-          "forest-land-sources",
-          "grassland-sink",
-          "wetland-sources",
-          "wetland-sink",
-          "other-land-sources",
-          "other-land-sink",
-          "net-forest-emissions",
-          "forest-fires",
-          "savannas-fires",
-          "scrubland-fires",
-          "peatland-fires",
-          "forest-grassland-wetland-sink",
+          "forest-land-fires",
           "forest-land-clearing",
           "forest-land-degradation",
-          "forest-land-fires",
+          "net-forest-land",
+          "net-shrubgrass",
+          "net-wetland",
           "grassland-fires",
-          "net-grassland-emissions",
-          "net-wetland-emissions",
-          "wetland-fires"
+          "wetland-fires",
+          "forest-grassland-wetland-removals"
         ],
         "type": "string"
       },
