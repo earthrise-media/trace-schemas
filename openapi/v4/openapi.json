@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "version": "4.0.0-alpha",
-    "description": "ClimateTRACE API v4",
+    "description": "ClimateTRACE API V4",
     "contact": {
       "email": "info@climatetrace.org"
     },
@@ -46,13 +46,14 @@
     }
   ],
   "paths": {
+    
     "/v4/assets": {
       "get": {
         "tags": [
           "Assets"
         ],
-        "summary": "Provides a list of assets in GeoJSON format",
-        "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location. The asset's actual geometry type is made available in the response and the actual geometry can be retrieved at the asset detail endpoint",
+        "summary": "Provides a way to search assets",
+        "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location.  Despite this documentation the return format is not geojson, just regular json",
         "operationId": "get-assets",
         "parameters": [
           {
@@ -62,16 +63,19 @@
             "$ref": "#/components/parameters/offset"
           },
           {
-            "$ref": "#/components/parameters/countries_csv"
+            "$ref": "#/components/parameters/countries_csv_optional"
           },
           {
-            "$ref": "#/components/parameters/sectors_csv"
+            "$ref": "#/components/parameters/sectors_csv_optional"
           },
           {
-            "$ref": "#/components/parameters/gas"
-          },
+            "$ref": "#/components/parameters/subsectors_csv_optional"
+          },          
           {
             "$ref": "#/components/parameters/continents_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/admin_id_optional"
           }
         ],
         "responses": {
@@ -96,9 +100,10 @@
         "tags": [
           "Assets"
         ],
-        "summary": "Provides a list of assets in GeoJSON format",
+        "summary": "Deprecated - use /4/assets instead",
         "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location. The asset's actual geometry type is made available in the response and the actual geometry can be retrieved at the asset detail endpoint",
         "operationId": "search-assets",
+        "deprecated": true,
         "parameters": [
           {
             "$ref": "#/components/parameters/limit"
@@ -187,7 +192,8 @@
           "Assets"
         ],
         "summary": "Provides a list of countries (ISO3 codes) and the number of assets within it",
-        "description": "",
+        "description": "Not implemented",
+        "deprecated": true,
         "operationId": "get-asset-count-by-country",
         "responses": {
           "200": {
@@ -258,8 +264,136 @@
         }
       }
     },
-    "/v4/country/emissions/timeseries/sectors": {
+    "/v4/assets/emissions":{
       "get": {
+        "tags": ["Assets"],
+      "summary": "Emissions summarized by asset categories",
+      "description": "Emissions from the assets defined by the group of filters provided. The emissions are grouped by country or continent, with country taking precendence",
+      "operationId": "get-asset-emissions",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/admin_id_optional"
+        },
+        {
+          "$ref": "#/components/parameters/years_csv"
+        },
+        {
+          "$ref": "#/components/parameters/subsectors_csv_optional"
+        },
+        {
+          "$ref": "#/components/parameters/sectors_csv_optional"
+        },
+        {
+          "$ref": "#/components/parameters/continents_csv_optional"
+        },
+        {
+          "$ref": "#/components/parameters/countries_csv_optional"
+        },
+        {
+          "$ref": "#/components/parameters/gas"
+        }
+      ],      
+      "responses": {
+        "200": {
+          "description": "List of emission remainders for the parameters provided",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "AssetCount": {
+                      "type": "integer"                      
+                    },
+                    "Emissions": {
+                      "type": "number"
+                    },
+                    "Gas": {
+                      "$ref": "#/components/schemas/Gas"
+                    },
+                    "Country": {
+                      "$ref": "#/components/schemas/Country"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+    },
+    "/v4/assets/owners/{id}":{
+      "get": {
+        "tags": ["Assets"],
+      "summary": "Assets belonging to the ower provided",
+      "description": "A list of assets IDs belonging to the owner id in the query",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/owner_id"
+        }
+      ],
+      "responses": {
+       "200": {
+          "description": "List of Asset IDs",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/400"
+        }
+      }
+    }
+    },
+    "/v4/assets/admin/{id}":{      
+      "get": {
+        "tags": ["Assets"],
+      "summary": "Assets inside the administrative area provided",
+      "description": "A list of Asset Ids that are within the administrative area provided in the query",
+      "operationId": "get-assets-by-admin-id",
+      "parameters": [
+      {
+        "$ref": "#/components/parameters/admin_id"
+      }
+      ],
+      "responses": {
+        "200": {
+           "description": "List of Asset IDs",
+           "content": {
+             "application/json": {
+               "schema": {
+                 "type": "array",
+                 "items": {
+                   "type": "integer"
+                 }
+               }
+             }
+           }
+         },
+         "400": {
+           "$ref": "#/components/responses/400"
+         }
+       }
+     }
+  
+    },
+
+
+
+    "/v4/country/emissions/timeseries/sectors": {
+      "get": {        
         "tags": [
           "Countries"
         ],
@@ -269,6 +403,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/countries_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/continents_csv_optional"
           },
           {
             "$ref": "#/components/parameters/since"
@@ -299,10 +436,11 @@
     },
     "/v4/country/emissions/timeseries/sectors/{sector}": {
       "get": {
+        "deprecated": true,
         "tags": [
           "Countries"
         ],
-        "summary": "Provides emissions time-series detail by subsector",
+        "summary": "Unimplemented",
         "description": "This operation replaces /emissions_by_subsector_timeseries in the v1 API. One of the country or continent parameters is required - continent takes precedence if both are provided ",
         "operationId": "get-emissions-timeseries-subsector",
         "parameters": [
@@ -425,7 +563,7 @@
           }
         }
       }
-    },
+    },    
     "/v4/country/emissions/global": {
       "get": {
         "tags": [
@@ -1429,6 +1567,27 @@
           }
         }
       },
+      "admin_id_optional":{
+        "name": "adminId",
+        "in": "query",
+        "description": "the id of an administrative area",
+        "required": true,
+        "schema":{"type": "integer"}
+      },
+      "admin_id":{
+        "name": "id",
+        "in": "path",
+        "description": "the id of an administrative area",
+        "required": false,
+        "schema":{"type": "integer"}
+      },
+      "owner_id":{
+        "name": "id",
+        "in": "path",
+        "description": "the id of the owner",
+        "required": false,
+        "schema":{"type": "integer"}
+      },
       "since": {
         "name": "since",
         "in": "query",
@@ -1477,6 +1636,7 @@
         "in": "query",
         "description": "A comma separated list of years to include",
         "required": false,
+    
         "style": "form",
         "explode": true,
         "schema": {
@@ -1484,7 +1644,9 @@
           "items": {
             "type": "integer",
             "maximum": 2050,
-            "minimum": 2020
+            "minimum": 2020,
+            "default": 2022
+
           }
         }
       },
