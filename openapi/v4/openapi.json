@@ -60,6 +60,9 @@
             "$ref": "#/components/parameters/limit"
           },
           {
+            "$ref": "#/components/parameters/year"
+          },
+          {
             "$ref": "#/components/parameters/offset"
           },
           {
@@ -95,58 +98,7 @@
         }
       }
     },
-    "/v4/assets/search": {
-      "get": {
-        "tags": [
-          "Assets"
-        ],
-        "summary": "Deprecated - use /4/assets instead",
-        "description": "This operation allows for discovery of assets. It returns a list of assets matching the search parameters and the centroid of the assets location. The asset's actual geometry type is made available in the response and the actual geometry can be retrieved at the asset detail endpoint",
-        "operationId": "search-assets",
-        "deprecated": true,
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/limit"
-          },
-          {
-            "$ref": "#/components/parameters/offset"
-          },
-          {
-            "$ref": "#/components/parameters/countries_csv"
-          },
-          {
-            "$ref": "#/components/parameters/sectors_csv"
-          },
-          {
-            "$ref": "#/components/parameters/gas"
-          },
-          {
-            "$ref": "#/components/parameters/continents_csv_optional"
-          },
-          {
-            "$ref": "#/components/parameters/point_optional"
-          },
-          {
-            "$ref": "#/components/parameters/bbox_optional"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "List of Assets",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssetCollection"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          }
-        }
-      }
-    },
+
     "/v4/assets/{assetId}": {
       "get": {
         "tags": [
@@ -193,7 +145,7 @@
         ],
         "summary": "Provides a list of countries (ISO3 codes) and the number of assets within it",
         "description": "Not implemented",
-        "deprecated": true,
+        "deprecated": false,
         "operationId": "get-asset-count-by-country",
         "responses": {
           "200": {
@@ -434,14 +386,13 @@
         }
       }
     },
-    "/v4/country/emissions/timeseries/sectors/{sector}": {
-      "get": {
-        "deprecated": true,
+    "/v4/country/emissions/timeseries/subsectors": {
+      "get": {        
         "tags": [
           "Countries"
         ],
-        "summary": "Unimplemented",
-        "description": "This operation replaces /emissions_by_subsector_timeseries in the v1 API. One of the country or continent parameters is required - continent takes precedence if both are provided ",
+        "summary": "Provides emissions time-series emissions data, broken down by subsector",
+        "description": "This operation replaces /emissions_by_sector_time-series in the v1 API",
         "operationId": "get-emissions-timeseries-subsector",
         "parameters": [
           {
@@ -455,14 +406,95 @@
           },
           {
             "$ref": "#/components/parameters/to"
-          },
-          {
-            "$ref": "#/components/parameters/sector_path"
           }
         ],
         "responses": {
           "200": {
-            "description": "A time-series of emissions grouped by SubSectors",
+            "description": "A time-series of emissions grouped by sector",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSeriesEmission"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/country/emissions/timeseries/continents": {
+      "get": {        
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Provides emissions time-series emissions data, broken down by continent",
+        "description": "This operation replaces /emissions_by_sector_time-series in the v1 API",
+        "operationId": "get-emissions-timeseries-continents",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sectors_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/subsectors_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/since"
+          },
+          {
+            "$ref": "#/components/parameters/to"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A time-series of emissions grouped by sector",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimeSeriesEmission"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/v4/country/emissions/timeseries/countries": {
+      "get": {        
+        "tags": [
+          "Countries"
+        ],
+        "summary": "Provides emissions time-series emissions data, broken down by country",
+        "description": "This operation replaces /emissions_by_sector_time-series in the v1 API",
+        "operationId": "get-emissions-timeseries-country",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/sectors_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/subsectors_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/since"
+          },
+          {
+            "$ref": "#/components/parameters/to"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A time-series of emissions grouped by sector",
             "content": {
               "application/json": {
                 "schema": {
@@ -606,6 +638,7 @@
         }
       }
     },
+    
     "/v4/tiles/raster": {
       "get": {
         "summary": "Get Raster Tiles",
@@ -785,123 +818,7 @@
         }
       }
     },
-    "/v4/tiles/vector/sectors/{sector}": {
-      "get": {
-        "summary": "Get vector tile years",
-        "description": "Returns a list of years for which vector tiles are available for the given sector",
-        "operationId": "get-vector-tile-sectors-years",
-        "tags": [
-          "Tiles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/sector_path"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemDefinitions"
-                  }
-                }
-              }
-            },
-            "description": "A generic list of years"
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/v4/tiles/vector/sectors/{sector}/{year}": {
-      "get": {
-        "summary": "",
-        "description": "",
-        "operationId": "get-vector-tile-json",
-        "tags": [
-          "Tiles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/sector_path"
-          },
-          {
-            "$ref": "#/components/parameters/year_path"
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/TileJSON"
-                }
-              }
-            },
-            "description": "A tilejson document"
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
-    "/v4/tiles/vector/sectors/{sector}/{year}/{z}/{x}/{y}": {
-      "get": {
-        "summary": "",
-        "description": "",
-        "operationId": "get-vector-tile",
-        "tags": [
-          "Tiles"
-        ],
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/sector_path"
-          },
-          {
-            "$ref": "#/components/parameters/year_path"
-          },
-          {
-            "$ref": "#/components/parameters/x"
-          },
-          {
-            "$ref": "#/components/parameters/y"
-          },
-          {
-            "$ref": "#/components/parameters/z"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "vector tile",
-            "content": {
-              "application/vnd.mapbox-vector-tile": {
-                "schema": {
-                  "format": "binary"
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/400"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          }
-        }
-      }
-    },
+   
     "/v4/tiles/vector/groups": {
       "get": {
         "summary": "Get vector tile years",
@@ -1178,6 +1095,59 @@
                   "type": "object",
                   "additionalProperties": {
                     "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v4/definitions/groups": {
+      "get": {
+        "tags": [
+          "Definitions"
+        ],
+        "summary": "Provides a list of known groups",
+        "description": "",
+        "operationId": "get-groups",
+        "responses": {
+          "200": {
+            "description": "List of countries belonging to given group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"                  
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v4/definitions/groups/{group}": {
+      "get": {
+        "tags": [
+          "Definitions"
+        ],
+        "summary": "Provides a detail for a particular groups",
+        "description": "",
+        "operationId": "get-group",
+        "parameters": [          {
+          "name": "group",
+          "required": true,
+          "in": "path",          
+          "schema":{ "type": "string"}
+        }],
+        "responses": {
+          "200": {
+            "description": "List of countries belonging to given group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array"
                   }
                 }
               }
@@ -1614,6 +1584,19 @@
           "minimum": 2000,
           "type": "integer",
           "default": 2020
+        }
+      },
+      "year": {
+        "name": "year",
+        "in": "query",
+        "description": "A 4 digit year",
+        "required": false,
+        "explode": true,
+        "schema": {
+          "type": "integer",
+          "default": 2022,
+          "minimum": 2020,
+          "maximum": 2050
         }
       },
       "year_path": {
