@@ -78,6 +78,9 @@
             "$ref": "#/components/parameters/continents_csv_optional"
           },
           {
+            "$ref": "#/components/parameters/groups_csv_optional"
+          },
+          {
             "$ref": "#/components/parameters/admin_id_optional"
           }
         ],
@@ -239,6 +242,9 @@
           "$ref": "#/components/parameters/continents_csv_optional"
         },
         {
+          "$ref": "#/components/parameters/groups_csv_optional"
+        },
+        {
           "$ref": "#/components/parameters/countries_csv_optional"
         },
         {
@@ -360,6 +366,9 @@
             "$ref": "#/components/parameters/continents_csv_optional"
           },
           {
+            "$ref": "#/components/parameters/groups_csv_optional"
+          },
+          {
             "$ref": "#/components/parameters/since"
           },
           {
@@ -400,6 +409,9 @@
           },
           {
             "$ref": "#/components/parameters/continents_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/groups_csv_optional"
           },
           {
             "$ref": "#/components/parameters/since"
@@ -571,6 +583,9 @@
           },
           {
             "$ref": "#/components/parameters/continents_csv_optional"
+          },
+          {
+            "$ref": "#/components/parameters/groups_csv_optional"
           },
           {
             "$ref": "#/components/parameters/countries_csv_optional"
@@ -1520,6 +1535,20 @@
           "type": "array",
           "items": {
             "$ref": "#/components/schemas/Continent"
+          }
+        }
+      },
+      "groups_csv_optional":{
+        "name": "groups",
+        "in": "query",
+        "description": "A comma separated list of groups, available at /v4/definitions/groups",
+        "required": false,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "array",
+          "items": {                        
+            "type": "string"
           }
         }
       },
