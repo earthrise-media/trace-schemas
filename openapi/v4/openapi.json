@@ -1584,7 +1584,7 @@
         "name": "id",
         "in": "path",
         "description": "the id of the owner",
-        "required": false,
+        "required": true,
         "schema":{"type": "integer"}
       },
       "since": {
