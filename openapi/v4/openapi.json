@@ -1570,7 +1570,7 @@
         "name": "adminId",
         "in": "query",
         "description": "the id of an administrative area",
-        "required": true,
+        "required": false,
         "schema":{"type": "integer"}
       },
       "admin_id":{
