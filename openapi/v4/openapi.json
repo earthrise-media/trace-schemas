@@ -1577,7 +1577,7 @@
         "name": "id",
         "in": "path",
         "description": "the id of an administrative area",
-        "required": false,
+        "required": true,
         "schema":{"type": "integer"}
       },
       "owner_id":{
