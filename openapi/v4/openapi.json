@@ -147,12 +147,38 @@
           "Assets"
         ],
         "summary": "Provides a list of countries (ISO3 codes) and the number of assets within it",
-        "description": "Not implemented",
+        "description": "Provides a list of countries (ISO3 codes) and the number of assets within it",
         "deprecated": false,
         "operationId": "get-asset-count-by-country",
         "responses": {
           "200": {
             "description": "List of country codes and the number of assets in each",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v4/assets/subsectors": {
+      "get": {
+        "tags": [
+          "Assets"
+        ],
+        "summary": "Provides a list of subsectors and the number of assets for each",
+        "description": "Provides a list of subsectors and the number of assets for each",
+        "deprecated": false,
+        "operationId": "get-asset-count-by-subsector",
+        "responses": {
+          "200": {
+            "description": "List of subsectors and the number of assets in each",
             "content": {
               "application/json": {
                 "schema": {
