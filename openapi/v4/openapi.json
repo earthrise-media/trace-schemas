@@ -203,7 +203,7 @@
         "operationId": "get-remainders",
         "parameters": [
           {
-            "$ref": "#/components/parameters/countries_csv"
+            "$ref": "#/components/parameters/countries_csv_optional"
           },
           {
             "$ref": "#/components/parameters/years_csv"
